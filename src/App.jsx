@@ -1,23 +1,27 @@
-import React, { useState } from 'react'
-import Blog from './components/Blog'
-import Create from './components/Create'
-import Content from './components/Content'
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Blog from './components/Blog';
+import Create from './components/Create';
+import Content from './components/Content';
 
 export const Context = React.createContext();
 
 const App = () => {
 
-  const [blogItems, setBlogItems] = useState({});
-
-
+  const [blogItems, setBlogItems] = useState([]);
 
   return (
-    <>
-      {/* <Blog /> */}
-      {/* <Create /> */}
-      {/* <Content /> */}
-    </>
-  )
-}
+    <Context.Provider value={{ blogItems, setBlogItems }}>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Navigate to="/blogs" />} />
+          <Route path="/createblog" element={<Create />} />
+          <Route path="/blogs" element={<Blog />} />
+          <Route path="/blogs/:id" element={<Content />} />
+        </Routes>
+      </Router>
+    </Context.Provider>
+  );
+};
 
-export default App
+export default App;
